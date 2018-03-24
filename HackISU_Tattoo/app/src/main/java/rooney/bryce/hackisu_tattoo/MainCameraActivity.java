@@ -60,11 +60,11 @@ public class MainCameraActivity extends Activity {
         for(int i = 0; i<coordinateList.size(); i++){
 
             if(coordinateList.get(i).getDistance() == 9){
-                if(coordinateList.get(i).getDegrees() < Definitions.DIABITIES2_DISTANCE + 5 && coordinateList.get(i).getDegrees() >Definitions.DIABITIES2_DISTANCE - 5) {
-                    diseaseList.add(Definitions.DIABITIES2_STRING);
+                if(coordinateList.get(i).getDegrees() < Definitions.DNR_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.DNR_DEGREES - 5) {
+                    diseaseList.add(Definitions.DNR_STRING);
                 }
-                else if(coordinateList.get(i).getDegrees() < Definitions.DIABITIES2_DISTANCE + 5 && coordinateList.get(i).getDegrees() >Definitions.DIABITIES2_DISTANCE - 5) {
-                    diseaseList.add(Definitions.DIABITIES2_STRING);
+                else if(coordinateList.get(i).getDegrees() < Definitions.DONOR_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.DONOR_DEGREES - 5) {
+                    diseaseList.add(Definitions.DONOR_STRING);
                 }
             }
 
