@@ -186,6 +186,7 @@ public class ColorBlobDetector {
             pointList.add(center);
             if(x > 0) {
                 Log.d("DISTANCE", "" + euclideanDist(pointList.get(0), pointList.get(1)));
+                Imgproc.line(rgbaImage,pointList.get(0),pointList.get(1),new Scalar(0,255,0,255),3,8,0);
             }
         }
 

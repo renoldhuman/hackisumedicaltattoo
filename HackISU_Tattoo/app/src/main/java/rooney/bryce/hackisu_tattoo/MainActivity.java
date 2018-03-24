@@ -1,5 +1,6 @@
 package rooney.bryce.hackisu_tattoo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -35,11 +36,11 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     private Mat                  mRgba;
     private Scalar               mBlobColorRgba;
     private Scalar               mBlobColorHsv;
-    private ColorBlobDetector    mDetector;
     private Mat                  mSpectrum;
     private Size                 SPECTRUM_SIZE;
     private Scalar               CONTOUR_COLOR;
     private String               mShapeName;
+    private ColorBlobDetector    mDetector = new ColorBlobDetector();
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
@@ -111,7 +112,6 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         //mRgba creates a new matrix with height and width and four color channels
         //in the range 0 to 255
         mRgba = new Mat(height, width, CvType.CV_8UC4);
-        mDetector = new ColorBlobDetector();
         mSpectrum = new Mat();
         mBlobColorRgba = new Scalar(255);
         mBlobColorHsv = new Scalar(255);
@@ -151,20 +151,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 //        Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
 
         // Calculate average color of touched region
-        //mBlobColorHsv = Core.sumElems(touchedRegionHsv);
-//        mBlobColorHsv = new Scalar(0,0,0,255);
-////        int pointCount = touchedRect.width*touchedRect.height;
-////        for (int i = 0; i < mBlobColorHsv.val.length; i++)
-////            mBlobColorHsv.val[i] /= pointCount;
-//
-//        mBlobColorRgba = converScalarHsv2Rgba(mBlobColorHsv);
-//
-//        Log.i(TAG, "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
-//                ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
-//
-//        mDetector.setHsvColor(mBlobColorHsv);
 
-        //Imgproc.resize(mDetector.getSpectrum(), mSpectrum, SPECTRUM_SIZE, 0, 0, Imgproc.INTER_LINEAR_EXACT);
 
         mIsColorSelected = true;
 
@@ -194,7 +181,6 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         if (mIsColorSelected) {
             mDetector.houghsimpleprocess(mRgba);
             circled = mDetector.getmCircled();
-            Log.e("CIRCLE", "getting circles");
 
 //            for(MatOfPoint contour : contours){
 //                int type = shapeDetector(contour);
@@ -237,31 +223,34 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 
 
 
-    private int shapeDetector(MatOfPoint cont){
-        Log.d("CHECK","In the shape detector");
-        MatOfPoint2f approxCurve = new MatOfPoint2f();
-        MatOfPoint2f contconv = new MatOfPoint2f();
-        cont.convertTo(contconv,CvType.CV_32FC2);
-
-        double arcLength = Imgproc.arcLength(contconv, true);
-        Imgproc.approxPolyDP(contconv,approxCurve,.04*arcLength,true);
-        int shape = 0;
-
-        switch(approxCurve.height()){
-            case 3: shape = 1;
-                break;
-            case 4: Rect temp = Imgproc.boundingRect(cont);
-                double ar = temp.width/((float)temp.height);
-                shape = (ar >= 0.95 && ar <= 1.05) ? 2 : 3;
-                break;
-            case 5: shape = 4;
-                break;
-            default: shape = 5;
-                break;
-        }
-
-        return shape;
-    }
+//    private int shapeDetector(MatOfPoint cont){
+//        Log.d("CHECK","In the shape detector");
+//        MatOfPoint2f approxCurve = new MatOfPoint2f();
+//        MatOfPoint2f contconv = new MatOfPoint2f();
+//        cont.convertTo(contconv,CvType.CV_32FC2);
+//
+//        double arcLength = Imgproc.arcLength(contconv, true);
+//        Imgproc.approxPolyDP(contconv,approxCurve,.04*arcLength,true);
+//        int shape = 0;
+//
+//        switch(approxCurve.height()){
+//            case 3: shape = 1;
+//                break;
+//            case 4: Rect temp = Imgproc.boundingRect(cont);
+//                double ar = temp.width/((float)temp.height);
+//                shape = (ar >= 0.95 && ar <= 1.05) ? 2 : 3;
+//                break;
+//            case 5: shape = 4;
+//                break;
+//            default: shape = 5;
+//                break;
+//        }
+//=======
+//
+//>>>>>>> 02f551bdf69202ad8d28862cbaf9a2ab22c6ab53
+//
+//        return shape;
+//    }
 
     private Scalar converScalarHsv2Rgba(Scalar hsvColor) {
         Mat pointMatRgba = new Mat();
@@ -269,5 +258,27 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         Imgproc.cvtColor(pointMatHsv, pointMatRgba, Imgproc.COLOR_HSV2RGB_FULL, 4);
 
         return new Scalar(pointMatRgba.get(0, 0));
+    }
+
+    private ArrayList<String> extrapolateDiseaseData(ArrayList<Coordinate> coordinateList){
+        ArrayList<String> diseaseList = new ArrayList<String>();
+
+        for(int i = 0; i<coordinateList.size(); i++){
+
+            if(coordinateList.get(i).getDistance() == 9){
+                if(coordinateList.get(i).getDegrees() < Definitions.DNR_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.DNR_DEGREES - 5) {
+                    diseaseList.add(Definitions.DNR_STRING);
+                }
+                else if(coordinateList.get(i).getDegrees() < Definitions.DONOR_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.DONOR_DEGREES - 5) {
+                    diseaseList.add(Definitions.DONOR_STRING);
+                }
+            }
+
+
+
+
+        }
+
+        return diseaseList;
     }
 }
