@@ -106,6 +106,8 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     }
 
     public void onCameraViewStarted(int width, int height) {
+        //mRgba creates a new matrix with height width and four color channels
+        //in the range 0 to 255
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mDetector = new ColorBlobDetector();
         mSpectrum = new Mat();
