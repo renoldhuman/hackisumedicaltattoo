@@ -32,6 +32,7 @@ public class InfoDisplayActivity extends Activity {
         diseasesList = getIntent().getStringArrayListExtra("diseaseList");
 
 
+        addToDiseaseList();
 
     }
 
