@@ -20,7 +20,7 @@ public class MainCameraActivity extends Activity {
     private ArrayList<Coordinate> coordinateList;
     //   alec was here
 
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +57,21 @@ public class MainCameraActivity extends Activity {
     private ArrayList<String> extrapolateDiseaseData(ArrayList<Coordinate> coordinateList){
         ArrayList<String> diseaseList = new ArrayList<String>();
 
+        for(int i = 0; i<coordinateList.size(); i++){
 
+            if(coordinateList.get(i).getDistance() == 9){
+                if(coordinateList.get(i).getDegrees() < Definitions.DIABITIES2_DISTANCE + 5 && coordinateList.get(i).getDegrees() >Definitions.DIABITIES2_DISTANCE - 5) {
+                    diseaseList.add(Definitions.DIABITIES2_STRING);
+                }
+                else if(coordinateList.get(i).getDegrees() < Definitions.DIABITIES2_DISTANCE + 5 && coordinateList.get(i).getDegrees() >Definitions.DIABITIES2_DISTANCE - 5) {
+                    diseaseList.add(Definitions.DIABITIES2_STRING);
+                }
+            }
+
+
+
+
+        }
 
         return diseaseList;
     }
