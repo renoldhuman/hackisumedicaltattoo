@@ -1,5 +1,6 @@
 package rooney.bryce.hackisu_tattoo;
 
+
 import android.app.Activity;
 
 /**
@@ -7,4 +8,6 @@ import android.app.Activity;
  */
 
 public class InfoDisplayActivity extends Activity {
+
+
 }
