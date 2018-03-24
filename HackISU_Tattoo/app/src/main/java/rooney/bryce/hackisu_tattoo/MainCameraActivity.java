@@ -17,9 +17,10 @@ import java.util.List;
 public class MainCameraActivity extends Activity {
 
     private Button takePicButton;
-//    private locationDataPackage locationData;
-    private List<String> diseaseList;
-//   alec was here
+    private ArrayList<Coordinate> coordinateList;
+    //   alec was here
+
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class MainCameraActivity extends Activity {
 
 
                 Intent startInfoDisplayActivity = new Intent(MainCameraActivity.this, InfoDisplayActivity.class);
-                startInfoDisplayActivity.putStringArrayListExtra("diseaseList", extrapolateDiseaseData());
+                startInfoDisplayActivity.putStringArrayListExtra("diseaseList", extrapolateDiseaseData(coordinateList));
                 startActivity(startInfoDisplayActivity);
             }
         });
@@ -52,10 +53,10 @@ public class MainCameraActivity extends Activity {
 //        return locationDataPackage;
 //    }
 
-    private ArrayList<String> extrapolateDiseaseData(){//input locationDataPackage){
+
+    private ArrayList<String> extrapolateDiseaseData(ArrayList<Coordinate> coordinateList){
         ArrayList<String> diseaseList = new ArrayList<String>();
-        diseaseList.add("Test1");
-        diseaseList.add("Test2");
+
 
 
         return diseaseList;
