@@ -1,5 +1,6 @@
 package rooney.bryce.hackisu_tattoo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -10,6 +11,7 @@ import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
@@ -37,6 +39,8 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     private Mat                  mSpectrum;
     private Size                 SPECTRUM_SIZE;
     private Scalar               CONTOUR_COLOR;
+    private String               mShapeName;
+    private ColorBlobDetector    mDetector = new ColorBlobDetector();
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
@@ -105,7 +109,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     }
 
     public void onCameraViewStarted(int width, int height) {
-        //mRgba creates a new matrix with height width and four color channels
+        //mRgba creates a new matrix with height and width and four color channels
         //in the range 0 to 255
         mRgba = new Mat(height, width, CvType.CV_8UC4);
         mSpectrum = new Mat();
@@ -120,58 +124,133 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     }
 
     public boolean onTouch(View v, MotionEvent event) {
-        int cols = mRgba.cols();
-        int rows = mRgba.rows();
-
-        int xOffset = (mOpenCvCameraView.getWidth() - cols) / 2;
-        int yOffset = (mOpenCvCameraView.getHeight() - rows) / 2;
-
-        int x = (int)event.getX() - xOffset;
-        int y = (int)event.getY() - yOffset;
-
-        Log.i(TAG, "Touch image coordinates: (" + x + ", " + y + ")");
-
-        if ((x < 0) || (y < 0) || (x > cols) || (y > rows)) return false;
-
-        Rect touchedRect = new Rect();
-
-        touchedRect.x = (x>4) ? x-4 : 0;
-        touchedRect.y = (y>4) ? y-4 : 0;
-
-        touchedRect.width = (x+4 < cols) ? x + 4 - touchedRect.x : cols - touchedRect.x;
-        touchedRect.height = (y+4 < rows) ? y + 4 - touchedRect.y : rows - touchedRect.y;
-
-        Mat touchedRegionRgba = mRgba.submat(touchedRect);
-
-        Mat touchedRegionHsv = new Mat();
-        Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
+//        int cols = mRgba.cols();
+//        int rows = mRgba.rows();
+//
+//        int xOffset = (mOpenCvCameraView.getWidth() - cols) / 2;
+//        int yOffset = (mOpenCvCameraView.getHeight() - rows) / 2;
+//
+//        int x = (int)event.getX() - xOffset;
+//        int y = (int)event.getY() - yOffset;
+//
+//        Log.i(TAG, "Touch image coordinates: (" + x + ", " + y + ")");
+//
+//        if ((x < 0) || (y < 0) || (x > cols) || (y > rows)) return false;
+//
+//        Rect touchedRect = new Rect();
+//
+//        touchedRect.x = (x>4) ? x-4 : 0;
+//        touchedRect.y = (y>4) ? y-4 : 0;
+//
+//        touchedRect.width = (x+4 < cols) ? x + 4 - touchedRect.x : cols - touchedRect.x;
+//        touchedRect.height = (y+4 < rows) ? y + 4 - touchedRect.y : rows - touchedRect.y;
+//
+//        Mat touchedRegionRgba = mRgba.submat(touchedRect);
+//
+//        Mat touchedRegionHsv = new Mat();
+//        Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
 
         // Calculate average color of touched region
-        mBlobColorHsv = Core.sumElems(touchedRegionHsv);
-        int pointCount = touchedRect.width*touchedRect.height;
-        for (int i = 0; i < mBlobColorHsv.val.length; i++)
-            mBlobColorHsv.val[i] /= pointCount;
-
-        mBlobColorRgba = converScalarHsv2Rgba(mBlobColorHsv);
-
-        Log.i(TAG, "Touched rgba color: (" + mBlobColorRgba.val[0] + ", " + mBlobColorRgba.val[1] +
-                ", " + mBlobColorRgba.val[2] + ", " + mBlobColorRgba.val[3] + ")");
-
 
 
         mIsColorSelected = true;
 
-        touchedRegionRgba.release();
-        touchedRegionHsv.release();
+//        touchedRegionRgba.release();
+//        touchedRegionHsv.release();
 
         return false; // don't need subsequent touch events
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
+        mRgba = inputFrame.rgba();
+        Mat circled = new Mat();
 
+//        if (mIsColorSelected) {
+//            mDetector.process(mRgba);
+//            List<MatOfPoint> contours = mDetector.getContours();
+//            Log.e(TAG, "Contours count: " + contours.size());
+//            Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
+//
+//            Mat colorLabel = mRgba.submat(4, 68, 4, 68);
+//            colorLabel.setTo(mBlobColorRgba);
+//
+//            Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
+//            mSpectrum.copyTo(spectrumLabel);
+//        }
 
-        return mRgba;
+        if (mIsColorSelected) {
+            mDetector.houghsimpleprocess(mRgba);
+            circled = mDetector.getmCircled();
+
+//            for(MatOfPoint contour : contours){
+//                int type = shapeDetector(contour);
+//                switch (type) {
+//                    case 0:
+//                        Log.d("SHAPE","The function messed up somehow" );
+//                        break;
+//                    case 1:
+//                        Log.d("SHAPE","TRIANGLE" );
+//                        break;
+//                    case 2:
+//                        Log.d("SHAPE","SQUARE" );
+//                        break;
+//                    case 3:
+//                        Log.d("SHAPE","RECTANGLE" );
+//                        break;
+//                    case 4:
+//                        Log.d("SHAPE", "PENTAGON");
+//                        break;
+//                    case 5:
+//                        Log.d("SHAPE","CIRCLE");
+//                    default:
+//                        Log.d("SHAPE","FATAL ERROR" );
+//                        break;
+//                }
+//            }
+//            Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
+//
+//            Mat colorLabel = mRgba.submat(4, 68, 4, 68);
+//            colorLabel.setTo(mBlobColorRgba);
+//
+//            Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
+//            mSpectrum.copyTo(spectrumLabel);
+            return circled;
+        }
+        else{
+            return mRgba;
+        }
     }
+
+
+
+//    private int shapeDetector(MatOfPoint cont){
+//        Log.d("CHECK","In the shape detector");
+//        MatOfPoint2f approxCurve = new MatOfPoint2f();
+//        MatOfPoint2f contconv = new MatOfPoint2f();
+//        cont.convertTo(contconv,CvType.CV_32FC2);
+//
+//        double arcLength = Imgproc.arcLength(contconv, true);
+//        Imgproc.approxPolyDP(contconv,approxCurve,.04*arcLength,true);
+//        int shape = 0;
+//
+//        switch(approxCurve.height()){
+//            case 3: shape = 1;
+//                break;
+//            case 4: Rect temp = Imgproc.boundingRect(cont);
+//                double ar = temp.width/((float)temp.height);
+//                shape = (ar >= 0.95 && ar <= 1.05) ? 2 : 3;
+//                break;
+//            case 5: shape = 4;
+//                break;
+//            default: shape = 5;
+//                break;
+//        }
+//=======
+//
+//>>>>>>> 02f551bdf69202ad8d28862cbaf9a2ab22c6ab53
+//
+//        return shape;
+//    }
 
     private Scalar converScalarHsv2Rgba(Scalar hsvColor) {
         Mat pointMatRgba = new Mat();
@@ -179,5 +258,27 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         Imgproc.cvtColor(pointMatHsv, pointMatRgba, Imgproc.COLOR_HSV2RGB_FULL, 4);
 
         return new Scalar(pointMatRgba.get(0, 0));
+    }
+
+    private ArrayList<String> extrapolateDiseaseData(ArrayList<Coordinate> coordinateList){
+        ArrayList<String> diseaseList = new ArrayList<String>();
+
+        for(int i = 0; i<coordinateList.size(); i++){
+
+            if(coordinateList.get(i).getDistance() == 9){
+                if(coordinateList.get(i).getDegrees() < Definitions.DNR_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.DNR_DEGREES - 5) {
+                    diseaseList.add(Definitions.DNR_STRING);
+                }
+                else if(coordinateList.get(i).getDegrees() < Definitions.DONOR_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.DONOR_DEGREES - 5) {
+                    diseaseList.add(Definitions.DONOR_STRING);
+                }
+            }
+
+
+
+
+        }
+
+        return diseaseList;
     }
 }
