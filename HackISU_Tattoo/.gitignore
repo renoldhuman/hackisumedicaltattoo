@@ -7,3 +7,6 @@
 /build
 /captures
 .externalNativeBuild
+
+# add the openCV library so we don't have to push that massive thing every time
+openCVLibrary341
