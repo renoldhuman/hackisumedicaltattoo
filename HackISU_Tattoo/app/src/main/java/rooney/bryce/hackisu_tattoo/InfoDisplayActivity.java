@@ -7,6 +7,9 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Brycycle on 3/24/2018.
  */
@@ -14,14 +17,28 @@ import android.support.annotation.Nullable;
 public class InfoDisplayActivity extends Activity {
 
 
+    private ArrayList<String> diseasesList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_info_display);
+
+        if(savedInstanceState != null){
+            diseasesList = savedInstanceState.getStringArrayList("diseaseList");
+        }
+
+        diseasesList = getIntent().getStringArrayListExtra("diseaseList");
+
 
 
     }
 
+
+    private void addToDiseaseList(){
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -32,8 +49,9 @@ public class InfoDisplayActivity extends Activity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putStringArrayList("diseaseList", diseasesList);
 
 
     }

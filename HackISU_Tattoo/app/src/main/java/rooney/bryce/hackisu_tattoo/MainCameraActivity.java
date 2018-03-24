@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Brycycle on 3/24/2018.
  */
@@ -14,8 +17,8 @@ import android.widget.EditText;
 public class MainCameraActivity extends Activity {
 
     private Button takePicButton;
-
-
+//    private locationDataPackage locationData;
+    private List<String> diseaseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +29,17 @@ public class MainCameraActivity extends Activity {
 
         }
 
-//        takePicButton = (Button) findViewById(R.id.bTakePic);
+        takePicButton = (Button) findViewById(R.id.bTest);
         takePicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Threshhold functioin here. pass info to...
+                //take and get pic. pass to threshold function...
 
-                //Location Data to Readable data function here. Store in intent to send to InfoDisplayActivity
+                //Threshhold functioin here. pass info to...
 
 
                 Intent startInfoDisplayActivity = new Intent(MainCameraActivity.this, InfoDisplayActivity.class);
-                //put display info into intent to pass
+                startInfoDisplayActivity.putStringArrayListExtra("diseaseList", extrapolateDiseaseData());
                 startActivity(startInfoDisplayActivity);
             }
         });
@@ -49,8 +52,12 @@ public class MainCameraActivity extends Activity {
 //        return locationDataPackage;
 //    }
 
-//    private infoToDisplayPackage extrapolateInfo(input locationDataPackage){
-//
-//        return infoToDisplayPackage;
-//    }
+    private ArrayList<String> extrapolateDiseaseData(){//input locationDataPackage){
+        ArrayList<String> diseaseList = new ArrayList<String>();
+        diseaseList.add("Test1");
+        diseaseList.add("Test2");
+
+
+        return diseaseList;
+    }
 }
