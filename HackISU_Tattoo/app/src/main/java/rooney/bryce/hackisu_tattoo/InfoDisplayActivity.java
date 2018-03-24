@@ -44,7 +44,7 @@ public class InfoDisplayActivity extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        Intent startMainCameraActivity = new Intent(InfoDisplayActivity.this, MainCameraActivity.class);
+        Intent startMainCameraActivity = new Intent(InfoDisplayActivity.this, MainActivity.class);
         startActivity(startMainCameraActivity);
     }
 

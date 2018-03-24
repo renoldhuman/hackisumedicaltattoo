@@ -40,7 +40,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     private Size                 SPECTRUM_SIZE;
     private Scalar               CONTOUR_COLOR;
     private String               mShapeName;
-    private ColorBlobDetector    mDetector = new ColorBlobDetector();
+    private ColorBlobDetector    mDetector;
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
@@ -112,6 +112,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         //mRgba creates a new matrix with height and width and four color channels
         //in the range 0 to 255
         mRgba = new Mat(height, width, CvType.CV_8UC4);
+        mDetector = new ColorBlobDetector();
         mSpectrum = new Mat();
         mBlobColorRgba = new Scalar(255);
         mBlobColorHsv = new Scalar(255);
