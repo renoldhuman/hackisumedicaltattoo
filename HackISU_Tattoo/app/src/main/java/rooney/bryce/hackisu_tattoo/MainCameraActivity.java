@@ -19,7 +19,7 @@ public class MainCameraActivity extends Activity {
     private Button takePicButton;
 //    private locationDataPackage locationData;
     private List<String> diseaseList;
-
+//   alec was here
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
