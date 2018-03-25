@@ -37,7 +37,8 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     private static final String  TAG              = "OCVSample::Activity";
 
 
-    private boolean              mIsColorSelected = false;
+    private boolean              mIsColorSelected   = false;
+    private boolean              mGatherData        = false;
     private boolean              firstFrameCaptured = false;
     private int                  touchCount       = 0;
 
@@ -147,13 +148,15 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
             mIsColorSelected = true;
         }
 
+        //mGatherData = true;
+
 
         return false; // don't need subsequent touch events
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         mRgba = inputFrame.rgba();
-        Mat circled = new Mat();
+        Mat circled;
 
 
         if(firstFrameCaptured){
@@ -172,18 +175,25 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 
             // now that we have the information, start the Patient Screen
             startPatientIntent();
-
+            mIsColorSelected = false;
         }
 
         if (mIsColorSelected) {
+
             mDetector.houghsimpleprocess(mRgba);
+
             circled = mDetector.getmCircled();
 
             firstFrameCaptured = true;
             return circled;
         }
         else{
-            return mRgba;
+            mDetector.houghcircleprocess(mRgba);
+
+            circled = mDetector.getmCircled();
+
+            return circled;
+
         }
     }
 

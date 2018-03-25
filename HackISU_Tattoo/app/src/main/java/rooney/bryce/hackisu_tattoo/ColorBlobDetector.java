@@ -119,7 +119,7 @@ public class ColorBlobDetector {
         Imgproc.medianBlur(mHsvMat, mHsvMat, 5);
 
         Imgproc.HoughCircles(mHsvMat, mCircles, Imgproc.HOUGH_GRADIENT, 1.0,
-                (double)mHsvMat.rows()/16,100.0,30.0,10, 300);
+                (double)mHsvMat.rows()/16,100.0,30.0,10, 200);
 
         for (int x = 0; x < mCircles.cols(); x++) {
             double[] c = mCircles.get(0, x);
@@ -135,19 +135,24 @@ public class ColorBlobDetector {
                     centerArea = area;
                 }
                 centerPoints.add(center);
+
                 Imgproc.circle(rgbaImage, center, radius, new Scalar(255,0,0), 3, 8, 0 );
             }
-            else if(area >= referenceArea || area >= (referenceArea - referenceArea *.5)){
+            else if(area >= referenceArea || area >= (referenceArea - referenceArea *.15)){
                 Log.d("SECOND",""+area);
                 if (area >= referenceArea) {
                     referenceArea = area;
                 }
+
                 referencePoints.add(center);
+
                 Imgproc.circle(rgbaImage, center, radius, new Scalar(0,0,255), 3, 8, 0 );
             }
             else{
                 Log.d("DISEASE",""+area);
-                diseasePoints.add(center);
+
+                    diseasePoints.add(center);
+
                 Imgproc.circle(rgbaImage, center, radius, new Scalar(0,255,0), 3, 8, 0 );
             }
             //pointList.add(center);
@@ -157,8 +162,72 @@ public class ColorBlobDetector {
 //            }
         }
 
+
         averageCenter();
         averageReference();
+
+
+
+
+        mCircled = rgbaImage;
+
+    }
+
+    public void houghcircleprocess(Mat rgbaImage) {
+        Log.d("CHECK","In hough simple process");
+//        Imgproc.pyrDown(rgbaImage, mPyrDownMat);
+//        Imgproc.pyrDown(mPyrDownMat, mPyrDownMat);
+        //ArrayList<Point> pointList = new ArrayList<Point>();
+
+        Imgproc.cvtColor(rgbaImage, mHsvMat, Imgproc.COLOR_RGB2GRAY);
+
+        Imgproc.medianBlur(mHsvMat, mHsvMat, 5);
+
+        Imgproc.HoughCircles(mHsvMat, mCircles, Imgproc.HOUGH_GRADIENT, 1.0,
+                (double)mHsvMat.rows()/16,100.0,30.0,10, 300);
+
+        for (int x = 0; x < mCircles.cols(); x++) {
+            double[] c = mCircles.get(0, x);
+            Point center = new Point(Math.round(c[0]), Math.round(c[1]));
+            // circle center
+            Imgproc.circle(rgbaImage, center, 1, new Scalar(0,100,100), 3, 8, 0 );
+            // circle outline
+            int radius = (int) Math.round(c[2]);
+//            int area = (int)Math.PI*(radius*radius);
+//            if(area >= centerArea || area >= (centerArea - centerArea * .15)){
+//                Log.d("FIRST",""+area);
+//                if(area >= centerArea){
+//                    centerArea = area;
+//                }
+//                centerPoints.add(center);
+//
+//                Imgproc.circle(rgbaImage, center, radius, new Scalar(255,0,0), 3, 8, 0 );
+//            }
+//            else if(area >= referenceArea || area >= (referenceArea - referenceArea *.5)){
+//                Log.d("SECOND",""+area);
+//                if (area >= referenceArea) {
+//                    referenceArea = area;
+//                }
+//
+//                referencePoints.add(center);
+//
+//                Imgproc.circle(rgbaImage, center, radius, new Scalar(0,0,255), 3, 8, 0 );
+//            }
+//            else{
+//                Log.d("DISEASE",""+area);
+//
+//                diseasePoints.add(center);
+//
+//                Imgproc.circle(rgbaImage, center, radius, new Scalar(0,255,0), 3, 8, 0 );
+//            }
+            Imgproc.circle(rgbaImage, center, radius, new Scalar(0,255,255), 3, 8, 0 );
+            //pointList.add(center);
+//            if(x > 0) {
+//                Log.d("DISTANCE", "" + euclideanDist(pointList.get(0), pointList.get(1)));
+//                Imgproc.line(rgbaImage,pointList.get(0),pointList.get(1),new Scalar(0,255,0,255),3,8,0);
+//            }
+        }
+
 
         mCircled = rgbaImage;
 
