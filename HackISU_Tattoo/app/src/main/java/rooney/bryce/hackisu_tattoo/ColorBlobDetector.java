@@ -233,11 +233,11 @@ public class ColorBlobDetector {
         angleToRef = Math.atan2(ref_dy, ref_dx);
         angleToDisease = Math.atan2(disease_dy, disease_dx);
 
-        theAngle = angleToRef - angleToDisease;
+        angleToRef *= 180.0 / Math.PI;
+        angleToDisease *= 180 / Math.PI;
 
-        // convert angle to degrees
-        theAngle = theAngle * 180.0 / Math.PI;
-
+        theAngle = angleToDisease + (90 - angleToRef);
+        
         // we need to adjust the angle that the math function gives us because Bryce is silly and
         // defined the angle to be zero when vertical and move clockwise instead of zero at
         // horizontal and move counter-clockwise
@@ -246,6 +246,7 @@ public class ColorBlobDetector {
 //        else // theAngle > 90
 //            theAngle = 450 - theAngle;
 
+        // account for possible plus/minus shift if angle is slight greater or less than 180
         if (theAngle < -170)
             theAngle = 180;
 
