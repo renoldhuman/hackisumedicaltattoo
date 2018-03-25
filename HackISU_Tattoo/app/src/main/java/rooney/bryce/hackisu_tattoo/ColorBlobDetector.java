@@ -34,13 +34,14 @@ public class ColorBlobDetector {
     private int centerArea = 0;
     private int referenceArea = 0;
 
+    private Point centerPoint;
+    private Point referencePoint;
+
     // Color radius for range checking in HSV color space
     private Scalar mColorRadius = new Scalar(25,50,50,0);
     private Mat mSpectrum = new Mat();
     private List<MatOfPoint> mContours = new ArrayList<MatOfPoint>();
-    private List<Point> lineHorizontal = new ArrayList<Point>();
-    private List<Point> lineVertical = new ArrayList<Point>();
-    private int lineCount;
+    private List<Point> diseasePoints = new ArrayList<Point>();
 
     // Cache
     Mat mPyrDownMat = new Mat();
@@ -56,6 +57,19 @@ public class ColorBlobDetector {
     public void setColorRadius(Scalar radius) {
         mColorRadius = radius;
     }
+
+    public Point getCenterPoint() {
+        return centerPoint;
+    }
+
+    public Point getReferencePoint() {
+        return referencePoint;
+    }
+
+    public List<Point> getDiseasePoints() {
+        return diseasePoints;
+    }
+
 
     public void setHsvColor(Scalar hsvColor) {
         double minH = (hsvColor.val[0] >= mColorRadius.val[0]) ? hsvColor.val[0]-mColorRadius.val[0] : 0;

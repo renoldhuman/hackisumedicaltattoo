@@ -49,7 +49,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     private Scalar               CONTOUR_COLOR;
     private String               mShapeName;
     private ColorBlobDetector    mDetector;
-    private ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+    private ArrayList<Coordinate> diseaseCoordinateList = new ArrayList<Coordinate>();
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
@@ -90,7 +90,6 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         mOpenCvCameraView.setCvCameraViewListener(this);
 
 
-       
 
     }
 
@@ -199,7 +198,22 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 //        }
 
         if(firstFrameCaptured){
+            // once the first frame has been captured and the image data processed, we know have
+            // access to the center coordinates for the circles that are detected on the screen
+            Point centerPoint = mDetector.getCenterPoint();
+            Point referencePoint = mDetector.getReferencePoint();
+            List<Point> diseasePoints = mDetector.getDiseasePoints();
+
+            // create a new ArrayList to store the diseaseCoordinates that are created by the
+            // getDiseaseCoordinate method
+            for (Point p : diseasePoints) {
+                Coordinate diseaseCoord = ColorBlobDetector.getDiseaseCoordinate(centerPoint, referencePoint, p);
+                diseaseCoordinateList.add(diseaseCoord);
+            }
+
+            // now that we have the information, start the Patient Screen
             startPatientIntent();
+
         }
 
         if (mIsColorSelected) {
@@ -337,7 +351,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 
     private void startPatientIntent(){
         Intent startInfoDisplayActivity = new Intent(MainActivity.this, InfoDisplayActivity.class);
-        startInfoDisplayActivity.putExtra("diseaseList", extrapolateDiseaseData(coordinates));
+        startInfoDisplayActivity.putExtra("diseaseList", extrapolateDiseaseData(diseaseCoordinateList));
         startActivity(startInfoDisplayActivity);
     }
 }
