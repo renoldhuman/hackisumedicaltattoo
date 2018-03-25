@@ -49,9 +49,12 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     private Scalar               CONTOUR_COLOR;
     private String               mShapeName;
     private ColorBlobDetector    mDetector;
-    private ArrayList<Coordinate> coordinates = new ArrayList<Coordinate>();
+    private ArrayList<Coordinate> diseaseCoordinateList = new ArrayList<Coordinate>();
 
     private CameraBridgeViewBase mOpenCvCameraView;
+
+    // difference in angle allowed in degrees
+    private static final double ANGLE_BUFFER = 8.0;
 
     private BaseLoaderCallback  mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -90,7 +93,6 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         mOpenCvCameraView.setCvCameraViewListener(this);
 
 
-       
 
     }
 
@@ -155,7 +157,22 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 
 
         if(firstFrameCaptured){
+            // once the first frame has been captured and the image data processed, we know have
+            // access to the center coordinates for the circles that are detected on the screen
+            Point centerPoint = mDetector.getCenterPoint();
+            Point referencePoint = mDetector.getReferencePoint();
+            List<Point> diseasePoints = mDetector.getDiseasePoints();
+
+            // create a new ArrayList to store the diseaseCoordinates that are created by the
+            // getDiseaseCoordinate method
+            for (Point p : diseasePoints) {
+                Coordinate diseaseCoord = ColorBlobDetector.getDiseaseCoordinate(centerPoint, referencePoint, p);
+                diseaseCoordinateList.add(diseaseCoord);
+            }
+
+            // now that we have the information, start the Patient Screen
             startPatientIntent();
+
         }
 
         if (mIsColorSelected) {
@@ -180,45 +197,45 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 
             // Inner (9mm)
             if (coordinateList.get(i).getDistance() < 11 && coordinateList.get(i).getDistance() > 7) {
-                if (coordinateList.get(i).getDegrees() < Definitions.DNR_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.DNR_DEGREES - 5) {
+                if (coordinateList.get(i).getDegrees() < Definitions.DNR_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.DNR_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.DNR_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.DONOR_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.DONOR_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.DONOR_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.DONOR_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.DONOR_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.NIV_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.NIV_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.NIV_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.NIV_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.NIV_STRING);
 
                 }
             }
                 // Middle (18mm)
             else if (coordinateList.get(i).getDistance() < 20 && coordinateList.get(i).getDistance() > 16) {
-                if (coordinateList.get(i).getDegrees() < Definitions.PENICILLIN_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.PENICILLIN_DEGREES - 5) {
+                if (coordinateList.get(i).getDegrees() < Definitions.PENICILLIN_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.PENICILLIN_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.PENICILLIN_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.ANTIBIOTICS_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.ANTIBIOTICS_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.ANTIBIOTICS_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.ANTIBIOTICS_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.ANTIBIOTICS_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.ASPIRIN_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.ASPIRIN_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.ASPIRIN_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.ASPIRIN_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.ASPIRIN_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.NSAIDS_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.NSAIDS_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.NSAIDS_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.NSAIDS_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.NSAIDS_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.FOOD_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.FOOD_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.FOOD_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.FOOD_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.FOOD_STRING);
                 }
             }
 
                 // Outer (27mm)
             else if (coordinateList.get(i).getDistance() < 29 && coordinateList.get(i).getDistance() > 25) {
-                if (coordinateList.get(i).getDegrees() < Definitions.DIABETES1_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.DIABETES1_DEGREES - 5) {
+                if (coordinateList.get(i).getDegrees() < Definitions.DIABETES1_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.DIABETES1_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.DIABETES1_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.DIABETES2_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.DIABETES2_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.DIABETES2_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.DIABETES2_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.DIABETES2_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.HYPOGLYCEMIA_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.HYPOGLYCEMIA_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.HYPOGLYCEMIA_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.HYPOGLYCEMIA_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.HYPOGLYCEMIA_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.HYPOTENSION_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.HYPOTENSION_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.HYPOTENSION_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.HYPOTENSION_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.HYPOTENSION_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.HYPERGLYCEMIA_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.HYPERGLYCEMIA_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.HYPERGLYCEMIA_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.HYPERGLYCEMIA_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.HYPERGLYCEMIA_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.HYPERTENSION_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.HYPERTENSION_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.HYPERTENSION_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.HYPERTENSION_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.HYPERTENSION_STRING);
-                } else if (coordinateList.get(i).getDegrees() < Definitions.AIDS_DEGREES + 5 && coordinateList.get(i).getDegrees() > Definitions.AIDS_DEGREES - 5) {
+                } else if (coordinateList.get(i).getDegrees() < Definitions.AIDS_DEGREES + ANGLE_BUFFER && coordinateList.get(i).getDegrees() > Definitions.AIDS_DEGREES - ANGLE_BUFFER) {
                     diseaseList.add(Definitions.AIDS_STRING);
                 }
             }
@@ -231,7 +248,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 
     private void startPatientIntent(){
         Intent startInfoDisplayActivity = new Intent(MainActivity.this, InfoDisplayActivity.class);
-        startInfoDisplayActivity.putExtra("diseaseList", extrapolateDiseaseData(coordinates));
+        startInfoDisplayActivity.putExtra("diseaseList", extrapolateDiseaseData(diseaseCoordinateList));
         startActivity(startInfoDisplayActivity);
     }
 }

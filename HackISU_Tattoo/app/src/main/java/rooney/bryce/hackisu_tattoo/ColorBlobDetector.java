@@ -33,6 +33,7 @@ public class ColorBlobDetector {
     private static double mMinContourArea = 0.1;
     private int centerArea = 0;
     private int referenceArea = 0;
+
     private Point centerPoint;
     private Point referencePoint;
 
@@ -43,7 +44,6 @@ public class ColorBlobDetector {
     private List<Point> centerPoints = new ArrayList<Point>();
     private List<Point> referencePoints = new ArrayList<Point>();
     private List<Point> diseasePoints = new ArrayList<Point>();
-
 
     // Cache
     Mat mPyrDownMat = new Mat();
@@ -59,6 +59,19 @@ public class ColorBlobDetector {
     public void setColorRadius(Scalar radius) {
         mColorRadius = radius;
     }
+
+    public Point getCenterPoint() {
+        return centerPoint;
+    }
+
+    public Point getReferencePoint() {
+        return referencePoint;
+    }
+
+    public List<Point> getDiseasePoints() {
+        return diseasePoints;
+    }
+
 
     public void setHsvColor(Scalar hsvColor) {
         double minH = (hsvColor.val[0] >= mColorRadius.val[0]) ? hsvColor.val[0]-mColorRadius.val[0] : 0;
@@ -144,22 +157,10 @@ public class ColorBlobDetector {
 //            }
         }
 
-        
+
 
         mCircled = rgbaImage;
 
-    }
-
-    public Point getCenterPoint(){
-        return centerPoint;
-    }
-
-    public Point getReferencePoint(){
-        return referencePoint;
-    }
-
-    public List<Point> getDiseasePoints(){
-        return diseasePoints;
     }
 
     private void averageCenter(){
@@ -222,10 +223,10 @@ public class ColorBlobDetector {
         mmDistance = distanceToDisease / normalizationDistance * REFERENCE_DISTANCE;
 
         double ref_dx = ref.x - center.x;
-        double ref_dy = ref.y - center.y;
+        double ref_dy = -1 * (ref.y - center.y); // account for computer science coordinate positions with -1
 
         double disease_dx = disease.x - center.x;
-        double disease_dy = disease.y - center.y;
+        double disease_dy = -1 * (disease.y - center.y); // also account for coordinate system here
 
         // angle comes back in radius
         angleToRef = Math.atan2(ref_dy, ref_dx);
