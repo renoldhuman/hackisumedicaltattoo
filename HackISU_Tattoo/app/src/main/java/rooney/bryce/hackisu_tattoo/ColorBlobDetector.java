@@ -224,10 +224,10 @@ public class ColorBlobDetector {
         mmDistance = distanceToDisease / normalizationDistance * REFERENCE_DISTANCE;
 
         double ref_dx = ref.x - center.x;
-        double ref_dy = ref.y - center.y;
+        double ref_dy = -1 * (ref.y - center.y); // account for computer science coordinate positions with -1
 
         double disease_dx = disease.x - center.x;
-        double disease_dy = disease.y - center.y;
+        double disease_dy = -1 * (disease.y - center.y); // also account for coordinate system here
 
         // angle comes back in radius
         angleToRef = Math.atan2(ref_dy, ref_dx);
