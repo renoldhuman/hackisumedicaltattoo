@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +19,17 @@ import java.util.List;
 public class InfoDisplayActivity extends Activity {
 
 
-    private ArrayList<String> diseasesList;
+    private ArrayList<String> diseasesList = new ArrayList<String>();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_display);
+
+        final ListView lv = (ListView) findViewById(R.id.lvDiseaseList);
+
+        // Create an ArrayAdapter from List
 
         if(savedInstanceState != null){
             diseasesList = savedInstanceState.getStringArrayList("diseaseList");
@@ -32,14 +38,20 @@ public class InfoDisplayActivity extends Activity {
         diseasesList = getIntent().getStringArrayListExtra("diseaseList");
 
 
-        addToDiseaseList();
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>
+                (this, android.R.layout.simple_list_item_1, diseasesList);
+        lv.setAdapter(arrayAdapter);
 
+        arrayAdapter.notifyDataSetChanged();
     }
 
 
+<<<<<<< HEAD
     private void addToDiseaseList(){
-
+        public ListView lv =
     }
+=======
+>>>>>>> de759838adc288143b17e145855665468e4dbf18
 
     @Override
     public void onBackPressed() {
@@ -60,7 +72,8 @@ public class InfoDisplayActivity extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
-
     }
+
+
+
 }

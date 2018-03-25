@@ -1,15 +1,19 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\mcrgw_y1ejz4l\\Documents\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+            "outputFile": "/Users/Alex/Documents/GitHub/hackisumedicaltattoo/HackISU_Tattoo/openCVLibrary341/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
             "map": []
         },
         {
-            "outputFile": "C:\\Users\\Brycycle\\Documents\\GitHub\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+            "outputFile": "/Users/Alex/Documents/GitHub/hackisumedicaltattoo/HackISU_Tattoo/C:\\Users\\mcrgw_y1ejz4l\\Documents\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
             "map": []
         },
         {
-            "outputFile": "D:\\Software Development\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+            "outputFile": "/Users/Alex/Documents/GitHub/hackisumedicaltattoo/HackISU_Tattoo/C:\\Users\\Brycycle\\Documents\\GitHub\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+            "map": []
+        },
+        {
+            "outputFile": "/Users/Alex/Documents/GitHub/hackisumedicaltattoo/HackISU_Tattoo/D:\\Software Development\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
             "map": []
         }
     ]
