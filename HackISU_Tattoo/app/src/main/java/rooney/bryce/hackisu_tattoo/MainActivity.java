@@ -35,6 +35,8 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     private static final String  TAG              = "OCVSample::Activity";
 
     private boolean              mIsColorSelected = false;
+    private boolean              firstFrameCaptured = false;
+    private int                  touchCount       = 0;
     private Mat                  mRgba;
     private Scalar               mBlobColorRgba;
     private Scalar               mBlobColorHsv;
@@ -131,6 +133,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     }
 
     public boolean onTouch(View v, MotionEvent event) {
+        touchCount++;
 //        int cols = mRgba.cols();
 //        int rows = mRgba.rows();
 //
@@ -164,12 +167,9 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 
 //        touchedRegionRgba.release();
 //        touchedRegionHsv.release();
-
-        coordinates.add(new Coordinate(45, 27));
-        coordinates.add(new Coordinate(180, 18));
-        Intent startInfoDisplayActivity = new Intent(MainActivity.this, InfoDisplayActivity.class);
-        startInfoDisplayActivity.putExtra("diseaseList", extrapolateDiseaseData(coordinates));
-        startActivity(startInfoDisplayActivity);
+        if(touchCount == 1){
+            mIsColorSelected = true;
+        }
 
         return false; // don't need subsequent touch events
     }
@@ -190,6 +190,10 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 //            Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
 //            mSpectrum.copyTo(spectrumLabel);
 //        }
+
+        if(firstFrameCaptured){
+            startPatientIntent();
+        }
 
         if (mIsColorSelected) {
             mDetector.houghsimpleprocess(mRgba);
@@ -227,6 +231,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 //
 //            Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
 //            mSpectrum.copyTo(spectrumLabel);
+            firstFrameCaptured = true;
             return circled;
         }
         else{
@@ -321,5 +326,11 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
             }
 
         return diseaseList;
+    }
+
+    private void startPatientIntent(){
+        Intent startInfoDisplayActivity = new Intent(MainActivity.this, InfoDisplayActivity.class);
+        startInfoDisplayActivity.putExtra("diseaseList", extrapolateDiseaseData(coordinates));
+        startActivity(startInfoDisplayActivity);
     }
 }

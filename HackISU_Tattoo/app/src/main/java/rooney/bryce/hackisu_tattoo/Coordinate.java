@@ -6,13 +6,13 @@ package rooney.bryce.hackisu_tattoo;
 
 public class Coordinate {
 
-    public double degrees;
-    public double distance;
+    private double degrees;
+    private double distance;
 
-    public Coordinate(double degrees, double distance){
-        this.degrees = degrees;
-        this.distance = distance;
-    }
+//    public Coordinate(double degrees, double distance){
+//        this.degrees = degrees;
+//        this.distance = distance;
+//    }
 
     public double getDegrees() {
         return degrees;
