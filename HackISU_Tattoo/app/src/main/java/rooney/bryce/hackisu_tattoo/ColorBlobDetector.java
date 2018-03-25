@@ -241,10 +241,13 @@ public class ColorBlobDetector {
         // we need to adjust the angle that the math function gives us because Bryce is silly and
         // defined the angle to be zero when vertical and move clockwise instead of zero at
         // horizontal and move counter-clockwise
-        if (theAngle <= 90)
-            theAngle = 90 - theAngle;
-        else // theAngle > 90
-            theAngle = 450 - theAngle;
+//        if (theAngle <= 90)
+//            theAngle = 90 - theAngle;
+//        else // theAngle > 90
+//            theAngle = 450 - theAngle;
+
+        if (theAngle < -170)
+            theAngle = 180;
 
         coordinate.setDistance(mmDistance);
         coordinate.setDegrees(theAngle);
