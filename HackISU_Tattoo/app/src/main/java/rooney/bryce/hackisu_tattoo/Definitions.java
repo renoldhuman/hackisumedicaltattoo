@@ -21,19 +21,19 @@ public class Definitions {
 
     public static final int HYPOGLYCEMIA_DEGREES = -45;
     public static final int HYPOGLYCEMIA_DISTANCE = 27;
-    public static final String HYPOGLYCEMIA_STRING = "HYPOGLYCEMIA";
+    public static final String HYPOGLYCEMIA_STRING = "Hypoglycemia";
 
     public static final int HYPOTENSION_DEGREES = -90;
     public static final int HYPOTENSION_DISTANCE = 27;
-    public static final String HYPOTENSION_STRING = "HYPOTENSION";
+    public static final String HYPOTENSION_STRING = "Hypotension";
 
     public static final int HYPERGLYCEMIA_DEGREES = -135;
     public static final int HYPERGLYCEMIA_DISTANCE = 27;
-    public static final String HYPERGLYCEMIA_STRING = "HYPERGLYCEMIA";
+    public static final String HYPERGLYCEMIA_STRING = "Hyperglycemia";
 
     public static final int HYPERTENSION_DEGREES = 180;
     public static final int HYPERTENSION_DISTANCE = 27;
-    public static final String HYPERTENSION_STRING = "HYPERTENSION";
+    public static final String HYPERTENSION_STRING = "Hypertension";
 
     public static final int AIDS_DEGREES = 135;
     public static final int AIDS_DISTANCE = 27;
@@ -60,7 +60,7 @@ public class Definitions {
 
     public static final int FOOD_DEGREES = 135;
     public static final int FOOD_DISTANCE = 18;
-    public static final String FOOD_STRING = "Food Allergy";
+    public static final String FOOD_STRING = "Amoxicillin Allergy";
 
    // Alerts/Misc. (Inner)
 

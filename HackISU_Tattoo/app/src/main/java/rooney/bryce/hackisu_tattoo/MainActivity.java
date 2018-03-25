@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     private static final String  TAG              = "OCVSample::Activity";
 
 
-    private boolean              mIsColorSelected   = true;
+    private boolean              mIsColorSelected   = false;
     private boolean              mGatherData        = false;
     private boolean              firstFrameCaptured = false;
     private int                  touchCount       = 0;
@@ -141,14 +141,14 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     }
 
     public boolean onTouch(View v, MotionEvent event) {
-//        touchCount++;
-//
-//
-//        if(touchCount == 1){
-//            mIsColorSelected = true;
-//        }
+        touchCount++;
 
-        mGatherData = true;
+
+        if(touchCount == 1){
+            mIsColorSelected = true;
+        }
+
+        //mGatherData = true;
 
 
         return false; // don't need subsequent touch events
@@ -179,19 +179,21 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         }
 
         if (mIsColorSelected) {
-            if(mGatherData){
-                mDetector.houghsimpleprocess(mRgba,mGatherData);
-            }
-            else{
-                mDetector.houghsimpleprocess(mRgba,mGatherData);
-            }
+
+            mDetector.houghsimpleprocess(mRgba);
+
             circled = mDetector.getmCircled();
 
             firstFrameCaptured = true;
             return circled;
         }
         else{
-            return mRgba;
+            mDetector.houghcircleprocess(mRgba);
+
+            circled = mDetector.getmCircled();
+
+            return circled;
+
         }
     }
 
