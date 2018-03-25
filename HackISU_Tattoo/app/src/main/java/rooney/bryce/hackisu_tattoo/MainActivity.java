@@ -18,6 +18,8 @@ import org.opencv.core.Size;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.core.Point;
+import org.opencv.core.Rect2d;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -34,9 +36,11 @@ import android.widget.Button;
 public class MainActivity extends Activity implements OnTouchListener, CvCameraViewListener2 {
     private static final String  TAG              = "OCVSample::Activity";
 
+
     private boolean              mIsColorSelected = false;
     private boolean              firstFrameCaptured = false;
     private int                  touchCount       = 0;
+
     private Mat                  mRgba;
     private Scalar               mBlobColorRgba;
     private Scalar               mBlobColorHsv;
@@ -86,6 +90,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         mOpenCvCameraView.setCvCameraViewListener(this);
 
 
+       
 
     }
 
@@ -167,9 +172,11 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 
 //        touchedRegionRgba.release();
 //        touchedRegionHsv.release();
+
         if(touchCount == 1){
             mIsColorSelected = true;
         }
+
 
         return false; // don't need subsequent touch events
     }
