@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +40,7 @@ public class InfoDisplayActivity extends Activity {
 
 
     private void addToDiseaseList(){
-
+        public ListView lv =
     }
 
     @Override
@@ -60,7 +62,8 @@ public class InfoDisplayActivity extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
-
     }
+
+
+
 }
