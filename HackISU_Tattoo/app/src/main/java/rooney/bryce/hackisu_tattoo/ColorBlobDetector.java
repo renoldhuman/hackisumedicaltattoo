@@ -144,8 +144,7 @@ public class ColorBlobDetector {
 //            }
         }
 
-
-
+        
 
         mCircled = rgbaImage;
 
