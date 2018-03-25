@@ -46,6 +46,12 @@ public class InfoDisplayActivity extends Activity {
     }
 
 
+<<<<<<< HEAD
+    private void addToDiseaseList(){
+        public ListView lv =
+    }
+=======
+>>>>>>> de759838adc288143b17e145855665468e4dbf18
 
     @Override
     public void onBackPressed() {
@@ -66,7 +72,8 @@ public class InfoDisplayActivity extends Activity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
-
     }
+
+
+
 }
