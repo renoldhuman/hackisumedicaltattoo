@@ -9,6 +9,11 @@ public class Coordinate {
     public double degrees;
     public double distance;
 
+    public Coordinate(double degrees, double distance){
+        this.degrees = degrees;
+        this.distance = distance;
+    }
+
     public double getDegrees() {
         return degrees;
     }
