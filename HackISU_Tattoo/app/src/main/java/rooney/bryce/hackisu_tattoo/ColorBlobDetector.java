@@ -108,7 +108,7 @@ public class ColorBlobDetector {
     }
 
 
-    public void houghsimpleprocess(Mat rgbaImage) {
+    public void houghsimpleprocess(Mat rgbaImage, Boolean gatherData) {
         Log.d("CHECK","In hough simple process");
 //        Imgproc.pyrDown(rgbaImage, mPyrDownMat);
 //        Imgproc.pyrDown(mPyrDownMat, mPyrDownMat);
@@ -134,7 +134,9 @@ public class ColorBlobDetector {
                 if(area >= centerArea){
                     centerArea = area;
                 }
-                centerPoints.add(center);
+                if(gatherData){
+                    centerPoints.add(center);
+                }
                 Imgproc.circle(rgbaImage, center, radius, new Scalar(255,0,0), 3, 8, 0 );
             }
             else if(area >= referenceArea || area >= (referenceArea - referenceArea *.5)){
@@ -142,12 +144,16 @@ public class ColorBlobDetector {
                 if (area >= referenceArea) {
                     referenceArea = area;
                 }
-                referencePoints.add(center);
+                if(gatherData){
+                    referencePoints.add(center);
+                }
                 Imgproc.circle(rgbaImage, center, radius, new Scalar(0,0,255), 3, 8, 0 );
             }
             else{
                 Log.d("DISEASE",""+area);
-                diseasePoints.add(center);
+                if(gatherData){
+                    diseasePoints.add(center);
+                }
                 Imgproc.circle(rgbaImage, center, radius, new Scalar(0,255,0), 3, 8, 0 );
             }
             //pointList.add(center);
@@ -155,6 +161,11 @@ public class ColorBlobDetector {
 //                Log.d("DISTANCE", "" + euclideanDist(pointList.get(0), pointList.get(1)));
 //                Imgproc.line(rgbaImage,pointList.get(0),pointList.get(1),new Scalar(0,255,0,255),3,8,0);
 //            }
+        }
+
+        if(gatherData){
+            averageCenter();
+            averageReference();
         }
 
 
