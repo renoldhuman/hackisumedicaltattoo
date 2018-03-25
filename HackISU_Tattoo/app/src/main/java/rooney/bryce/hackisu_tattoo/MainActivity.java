@@ -253,33 +253,73 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 //        return shape;
 //    }
 
-    private Scalar converScalarHsv2Rgba(Scalar hsvColor) {
-        Mat pointMatRgba = new Mat();
-        Mat pointMatHsv = new Mat(1, 1, CvType.CV_8UC3, hsvColor);
-        Imgproc.cvtColor(pointMatHsv, pointMatRgba, Imgproc.COLOR_HSV2RGB_FULL, 4);
-
-        return new Scalar(pointMatRgba.get(0, 0));
-    }
 
     private ArrayList<String> extrapolateDiseaseData(ArrayList<Coordinate> coordinateList){
         ArrayList<String> diseaseList = new ArrayList<String>();
 
         for(int i = 0; i<coordinateList.size(); i++){
 
-            if(coordinateList.get(i).getDistance() == 9){
+            // Inner (9mm)
+            if(coordinateList.get(i).getDistance() < 11 && coordinateList.get(i).getDistance() > 7){
                 if(coordinateList.get(i).getDegrees() < Definitions.DNR_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.DNR_DEGREES - 5) {
                     diseaseList.add(Definitions.DNR_STRING);
                 }
                 else if(coordinateList.get(i).getDegrees() < Definitions.DONOR_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.DONOR_DEGREES - 5) {
                     diseaseList.add(Definitions.DONOR_STRING);
                 }
+                else if(coordinateList.get(i).getDegrees() < Definitions.NIV_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.NIV_DEGREES - 5) {
+                    diseaseList.add(Definitions.NIV_STRING);
+
+                }
+
+                // Middle (18mm)
+                else if(coordinateList.get(i).getDistance() < 20 && coordinateList.get(i).getDistance() > 16){
+                    if(coordinateList.get(i).getDegrees() < Definitions.PENICILLIN_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.PENICILLIN_DEGREES - 5) {
+                        diseaseList.add(Definitions.PENICILLIN_STRING);
+                    }
+                    else if(coordinateList.get(i).getDegrees() < Definitions.ANTIBIOTICS_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.ANTIBIOTICS_DEGREES - 5) {
+                        diseaseList.add(Definitions.ANTIBIOTICS_STRING);
+                    }
+                    else if(coordinateList.get(i).getDegrees() < Definitions.ASPIRIN_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.ASPIRIN_DEGREES - 5) {
+                        diseaseList.add(Definitions.ASPIRIN_STRING);
+                    }
+                    else if(coordinateList.get(i).getDegrees() < Definitions.NSAIDS_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.NSAIDS_DEGREES - 5) {
+                        diseaseList.add(Definitions.NSAIDS_STRING);
+                    }
+                    else if(coordinateList.get(i).getDegrees() < Definitions.FOOD_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.FOOD_DEGREES - 5) {
+                        diseaseList.add(Definitions.FOOD_STRING);
+                    }
+                }
+
+                // Outer (27mm)
+                else if(coordinateList.get(i).getDistance() < 29 && coordinateList.get(i).getDistance() > 25){
+                    if(coordinateList.get(i).getDegrees() < Definitions.DIABETES1_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.DIABETES1_DEGREES - 5) {
+                        diseaseList.add(Definitions.DIABETES1_STRING);
+                    }
+                    else if(coordinateList.get(i).getDegrees() < Definitions.DIABETES2_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.DIABETES2_DEGREES - 5) {
+                        diseaseList.add(Definitions.DIABETES2_STRING);
+                    }
+                    else if(coordinateList.get(i).getDegrees() < Definitions.HYPOGLYCEMIA_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.HYPOGLYCEMIA_DEGREES - 5) {
+                        diseaseList.add(Definitions.HYPOGLYCEMIA_STRING);
+                    }
+                    else if(coordinateList.get(i).getDegrees() < Definitions.HYPOTENSION_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.HYPOTENSION_DEGREES - 5) {
+                        diseaseList.add(Definitions.HYPOTENSION_STRING);
+                    }
+                    else if(coordinateList.get(i).getDegrees() < Definitions.HYPERGLYCEMIA_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.HYPERGLYCEMIA_DEGREES - 5) {
+                        diseaseList.add(Definitions.HYPERGLYCEMIA_STRING);
+                    }
+                    else if(coordinateList.get(i).getDegrees() < Definitions.HYPERTENSION_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.HYPERTENSION_DEGREES - 5) {
+                        diseaseList.add(Definitions.HYPERTENSION_STRING);
+                    }
+                    else if(coordinateList.get(i).getDegrees() < Definitions.AIDS_DEGREES + 5 && coordinateList.get(i).getDegrees() >Definitions.AIDS_DEGREES - 5) {
+                        diseaseList.add(Definitions.AIDS_STRING);
+                    }
+                }
+
+
+
             }
 
-
-
-
+            return diseaseList;
         }
-
-        return diseaseList;
     }
-}
