@@ -1,19 +1,31 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/Alex/Documents/GitHub/hackisumedicaltattoo/HackISU_Tattoo/openCVLibrary341/build/intermediates/res/merged/androidTest/debug/values_values.arsc.flat",
+            "outputFile": "C:\\Users\\Alex\\Documents\\GitHub\\hackisumedicaltattoo\\HackISU_Tattoo\\D:\\Software Development\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
             "map": []
         },
         {
-            "outputFile": "/Users/Alex/Documents/GitHub/hackisumedicaltattoo/HackISU_Tattoo/C:\\Users\\Brycycle\\Documents\\GitHub\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
+            "outputFile": "C:\\Users\\Alex\\Documents\\GitHub\\hackisumedicaltattoo\\HackISU_Tattoo\\C:\\Users\\mcrgw_y1ejz4l\\Documents\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
             "map": []
         },
         {
+<<<<<<< HEAD
             "outputFile": "/Users/Alex/Documents/GitHub/hackisumedicaltattoo/HackISU_Tattoo/C:\\Users\\mcrgw_y1ejz4l\\Documents\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
             "map": []
         },
         {
             "outputFile": "/Users/Alex/Documents/GitHub/hackisumedicaltattoo/HackISU_Tattoo/D:\\Software Development\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
+=======
+            "outputFile": "C:\\Users\\Alex\\Documents\\GitHub\\hackisumedicaltattoo\\HackISU_Tattoo\\C:\\Users\\Brycycle\\Documents\\GitHub\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
+            "map": []
+        },
+        {
+            "outputFile": "C:\\Users\\Alex\\Documents\\GitHub\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
+            "map": []
+        },
+        {
+            "outputFile": "C:\\Users\\mcrgw_y1ejz4l\\Documents\\hackisumedicaltattoo\\HackISU_Tattoo\\openCVLibrary341\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
+>>>>>>> 18b76327bfaec6a93ee93222e74fa208463a50b6
             "map": []
         }
     ]
