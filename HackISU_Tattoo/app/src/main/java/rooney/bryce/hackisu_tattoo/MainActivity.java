@@ -139,39 +139,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
 
     public boolean onTouch(View v, MotionEvent event) {
         touchCount++;
-//        int cols = mRgba.cols();
-//        int rows = mRgba.rows();
-//
-//        int xOffset = (mOpenCvCameraView.getWidth() - cols) / 2;
-//        int yOffset = (mOpenCvCameraView.getHeight() - rows) / 2;
-//
-//        int x = (int)event.getX() - xOffset;
-//        int y = (int)event.getY() - yOffset;
-//
-//        Log.i(TAG, "Touch image coordinates: (" + x + ", " + y + ")");
-//
-//        if ((x < 0) || (y < 0) || (x > cols) || (y > rows)) return false;
-//
-//        Rect touchedRect = new Rect();
-//
-//        touchedRect.x = (x>4) ? x-4 : 0;
-//        touchedRect.y = (y>4) ? y-4 : 0;
-//
-//        touchedRect.width = (x+4 < cols) ? x + 4 - touchedRect.x : cols - touchedRect.x;
-//        touchedRect.height = (y+4 < rows) ? y + 4 - touchedRect.y : rows - touchedRect.y;
-//
-//        Mat touchedRegionRgba = mRgba.submat(touchedRect);
-//
-//        Mat touchedRegionHsv = new Mat();
-//        Imgproc.cvtColor(touchedRegionRgba, touchedRegionHsv, Imgproc.COLOR_RGB2HSV_FULL);
 
-        // Calculate average color of touched region
-
-
-//        mIsColorSelected = true;
-
-//        touchedRegionRgba.release();
-//        touchedRegionHsv.release();
 
         if(touchCount == 1){
             mIsColorSelected = true;
@@ -185,18 +153,6 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         mRgba = inputFrame.rgba();
         Mat circled = new Mat();
 
-//        if (mIsColorSelected) {
-//            mDetector.process(mRgba);
-//            List<MatOfPoint> contours = mDetector.getContours();
-//            Log.e(TAG, "Contours count: " + contours.size());
-//            Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
-//
-//            Mat colorLabel = mRgba.submat(4, 68, 4, 68);
-//            colorLabel.setTo(mBlobColorRgba);
-//
-//            Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
-//            mSpectrum.copyTo(spectrumLabel);
-//        }
 
         if(firstFrameCaptured){
             startPatientIntent();
@@ -206,38 +162,6 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
             mDetector.houghsimpleprocess(mRgba);
             circled = mDetector.getmCircled();
 
-//            for(MatOfPoint contour : contours){
-//                int type = shapeDetector(contour);
-//                switch (type) {
-//                    case 0:
-//                        Log.d("SHAPE","The function messed up somehow" );
-//                        break;
-//                    case 1:
-//                        Log.d("SHAPE","TRIANGLE" );
-//                        break;
-//                    case 2:
-//                        Log.d("SHAPE","SQUARE" );
-//                        break;
-//                    case 3:
-//                        Log.d("SHAPE","RECTANGLE" );
-//                        break;
-//                    case 4:
-//                        Log.d("SHAPE", "PENTAGON");
-//                        break;
-//                    case 5:
-//                        Log.d("SHAPE","CIRCLE");
-//                    default:
-//                        Log.d("SHAPE","FATAL ERROR" );
-//                        break;
-//                }
-//            }
-//            Imgproc.drawContours(mRgba, contours, -1, CONTOUR_COLOR);
-//
-//            Mat colorLabel = mRgba.submat(4, 68, 4, 68);
-//            colorLabel.setTo(mBlobColorRgba);
-//
-//            Mat spectrumLabel = mRgba.submat(4, 4 + mSpectrum.rows(), 70, 70 + mSpectrum.cols());
-//            mSpectrum.copyTo(spectrumLabel);
             firstFrameCaptured = true;
             return circled;
         }
@@ -246,36 +170,6 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         }
     }
 
-
-
-//    private int shapeDetector(MatOfPoint cont){
-//        Log.d("CHECK","In the shape detector");
-//        MatOfPoint2f approxCurve = new MatOfPoint2f();
-//        MatOfPoint2f contconv = new MatOfPoint2f();
-//        cont.convertTo(contconv,CvType.CV_32FC2);
-//
-//        double arcLength = Imgproc.arcLength(contconv, true);
-//        Imgproc.approxPolyDP(contconv,approxCurve,.04*arcLength,true);
-//        int shape = 0;
-//
-//        switch(approxCurve.height()){
-//            case 3: shape = 1;
-//                break;
-//            case 4: Rect temp = Imgproc.boundingRect(cont);
-//                double ar = temp.width/((float)temp.height);
-//                shape = (ar >= 0.95 && ar <= 1.05) ? 2 : 3;
-//                break;
-//            case 5: shape = 4;
-//                break;
-//            default: shape = 5;
-//                break;
-//        }
-//=======
-//
-//>>>>>>> 02f551bdf69202ad8d28862cbaf9a2ab22c6ab53
-//
-//        return shape;
-//    }
 
 
 

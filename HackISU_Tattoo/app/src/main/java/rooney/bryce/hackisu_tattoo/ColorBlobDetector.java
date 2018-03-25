@@ -33,14 +33,17 @@ public class ColorBlobDetector {
     private static double mMinContourArea = 0.1;
     private int centerArea = 0;
     private int referenceArea = 0;
+    private Point centerPoint;
+    private Point referencePoint;
 
     // Color radius for range checking in HSV color space
     private Scalar mColorRadius = new Scalar(25,50,50,0);
     private Mat mSpectrum = new Mat();
     private List<MatOfPoint> mContours = new ArrayList<MatOfPoint>();
-    private List<Point> lineHorizontal = new ArrayList<Point>();
-    private List<Point> lineVertical = new ArrayList<Point>();
-    private int lineCount;
+    private List<Point> centerPoints = new ArrayList<Point>();
+    private List<Point> referencePoints = new ArrayList<Point>();
+    private List<Point> diseasePoints = new ArrayList<Point>();
+
 
     // Cache
     Mat mPyrDownMat = new Mat();
@@ -91,89 +94,12 @@ public class ColorBlobDetector {
         mMinContourArea = area;
     }
 
-    public void process(Mat rgbaImage) {
-        Imgproc.pyrDown(rgbaImage, mPyrDownMat);
-        Imgproc.pyrDown(mPyrDownMat, mPyrDownMat);
-
-        Imgproc.cvtColor(mPyrDownMat, mHsvMat, Imgproc.COLOR_RGB2HSV_FULL);
-
-        Core.inRange(mHsvMat, mLowerBound, mUpperBound, mMask);
-        Imgproc.dilate(mMask, mDilatedMask, new Mat());
-
-        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-
-        Imgproc.findContours(mDilatedMask, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-
-        // Find max contour area
-        double maxArea = 0;
-        Iterator<MatOfPoint> each = contours.iterator();
-        while (each.hasNext()) {
-            MatOfPoint wrapper = each.next();
-            double area = Imgproc.contourArea(wrapper);
-            if (area > maxArea)
-                maxArea = area;
-        }
-
-        // Filter contours by area and resize to fit the original image size
-        mContours.clear();
-        each = contours.iterator();
-        while (each.hasNext()) {
-            MatOfPoint contour = each.next();
-            if (Imgproc.contourArea(contour) > mMinContourArea*maxArea) {
-                Core.multiply(contour, new Scalar(4,4), contour);
-                mContours.add(contour);
-            }
-        }
-    }
-
-    public void simpleprocess(Mat rgbaImage) {
-        Log.d("CHECK","In simple process");
-        Imgproc.pyrDown(rgbaImage, mPyrDownMat);
-        Imgproc.pyrDown(mPyrDownMat, mPyrDownMat);
-
-        Imgproc.cvtColor(mPyrDownMat, mHsvMat, Imgproc.COLOR_RGB2GRAY);
-
-        //Imgproc.GaussianBlur(mHsvMat, mBlurred, new Size(5,5), 0);
-
-        //Imgproc.threshold(mBlurred, mThreshed, 127,255,Imgproc.THRESH_BINARY);
-        Imgproc.adaptiveThreshold(mHsvMat,mThreshed,255,Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C,
-                Imgproc.THRESH_BINARY_INV,11,2);
-
-//        Core.inRange(mHsvMat, mLowerBound, mUpperBound, mMask);
-//        Imgproc.dilate(mMask, mDilatedMask, new Mat());
-
-        List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-
-        Imgproc.findContours(mThreshed, contours, mHierarchy, Imgproc.RETR_EXTERNAL, Imgproc.CHAIN_APPROX_SIMPLE);
-
-//        // Find max contour area
-//        double maxArea = 0;
-        Iterator<MatOfPoint> each = contours.iterator();
-//        while (each.hasNext()) {
-//            MatOfPoint wrapper = each.next();
-//            double area = Imgproc.contourArea(wrapper);
-//            if (area > maxArea)
-//                maxArea = area;
-//        }
-//
-//        // Filter contours by area and resize to fit the original image size
-        mContours.clear();
-        each = contours.iterator();
-        while (each.hasNext()) {
-            MatOfPoint contour = each.next();
-//            if (Imgproc.contourArea(contour) > mMinContourArea*maxArea) {
-//                Core.multiply(contour, new Scalar(4,4), contour);
-//                mContours.add(contour);
-//            }
-            mContours.add(contour);
-        }
-    }
 
     public void houghsimpleprocess(Mat rgbaImage) {
         Log.d("CHECK","In hough simple process");
 //        Imgproc.pyrDown(rgbaImage, mPyrDownMat);
 //        Imgproc.pyrDown(mPyrDownMat, mPyrDownMat);
-        ArrayList<Point> pointList = new ArrayList<Point>();
+        //ArrayList<Point> pointList = new ArrayList<Point>();
 
         Imgproc.cvtColor(rgbaImage, mHsvMat, Imgproc.COLOR_RGB2GRAY);
 
@@ -195,6 +121,7 @@ public class ColorBlobDetector {
                 if(area >= centerArea){
                     centerArea = area;
                 }
+                centerPoints.add(center);
                 Imgproc.circle(rgbaImage, center, radius, new Scalar(255,0,0), 3, 8, 0 );
             }
             else if(area >= referenceArea || area >= (referenceArea - referenceArea *.5)){
@@ -202,17 +129,19 @@ public class ColorBlobDetector {
                 if (area >= referenceArea) {
                     referenceArea = area;
                 }
+                referencePoints.add(center);
                 Imgproc.circle(rgbaImage, center, radius, new Scalar(0,0,255), 3, 8, 0 );
             }
             else{
                 Log.d("DISEASE",""+area);
+                diseasePoints.add(center);
                 Imgproc.circle(rgbaImage, center, radius, new Scalar(0,255,0), 3, 8, 0 );
             }
-            pointList.add(center);
-            if(x > 0) {
-                Log.d("DISTANCE", "" + euclideanDist(pointList.get(0), pointList.get(1)));
-                Imgproc.line(rgbaImage,pointList.get(0),pointList.get(1),new Scalar(0,255,0,255),3,8,0);
-            }
+            //pointList.add(center);
+//            if(x > 0) {
+//                Log.d("DISTANCE", "" + euclideanDist(pointList.get(0), pointList.get(1)));
+//                Imgproc.line(rgbaImage,pointList.get(0),pointList.get(1),new Scalar(0,255,0,255),3,8,0);
+//            }
         }
 
 
@@ -222,41 +151,55 @@ public class ColorBlobDetector {
 
     }
 
-//    public void houghlineprocess(Mat rgbImage){
-//        Mat dst = new Mat();
-//       // Mat cdst = new Mat();
-//        lineCount++;
-//
-//        Imgproc.Canny(rgbImage,dst,50,200);
-//
-//      //  Imgproc.cvtColor(dst,cdst,Imgproc.COLOR_RGB2GRAY);
-//
-//        Mat lines = new Mat();
-//        //Imgproc.HoughLines(dst,lines,1,Math.PI/180,100,0,0,0.0,360.0);
-//
-//        Imgproc.HoughLinesP(dst, lines, 3, Math.PI/180, 50,
-//                5, 10);
-//
-//        for (int x = 0; x < lines.rows(); x++)
-//        {
-//            double[] vec = lines.get(x, 0);
-//            double x1 = vec[0],
-//                    y1 = vec[1],
-//                    x2 = vec[2],
-//                    y2 = vec[3];
-//            Point start = new Point(x1, y1);
-//            Point end = new Point(x2, y2);
-//            double dx = x1 - x2;
-//            double dy = y1 - y2;
-//
-//            double dist = Math.sqrt (dx*dx + dy*dy);
-//
-//            if(dist>100.d)  // show those lines that have length greater than 300
-//                Imgproc.line(rgbImage, start, end, new Scalar(0,255, 0, 255),5);// here initimg is the original image.
-//
-//        }
-//        mCircled = rgbImage;
-//    }
+    public Point getCenterPoint(){
+        return centerPoint;
+    }
+
+    public Point getReferencePoint(){
+        return referencePoint;
+    }
+
+    public List<Point> getDiseasePoints(){
+        return diseasePoints;
+    }
+
+    private void averageCenter(){
+        Point tempCenter = new Point();
+        double tempX = 0.0;
+        double tempY = 0.0;
+
+        for(Point p : centerPoints){
+            tempX += p.x;
+            tempY += p.y;
+        }
+
+        tempX = tempX/centerPoints.size();
+        tempY = tempY/centerPoints.size();
+
+        tempCenter.x = tempX;
+        tempCenter.y = tempY;
+
+        centerPoint = tempCenter;
+    }
+
+    private void averageReference(){
+        Point tempReference = new Point();
+        double tempX = 0.0;
+        double tempY = 0.0;
+
+        for(Point p : referencePoints){
+            tempX += p.x;
+            tempY += p.y;
+        }
+
+        tempX = tempX/referencePoints.size();
+        tempY = tempY/referencePoints.size();
+
+        tempReference.x = tempX;
+        tempReference.y = tempY;
+
+        referencePoint = tempReference;
+    }
 
     /**
      * Gets the coordinate information given the center, reference and disease marker points
@@ -321,10 +264,4 @@ public class ColorBlobDetector {
         return Math.sqrt(diff.x*diff.x + diff.y*diff.y);
     }
 
-    private double calculateLineSlope(Point p, Point q){
-        double larger = (p.x > q.x) ? p.x : q.x;
-        double smaller = (larger == p.x) ? q.x : p.x;
-
-        return 0.0;
-    }
 }
