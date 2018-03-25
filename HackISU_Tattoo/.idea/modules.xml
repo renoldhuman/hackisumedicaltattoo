@@ -4,13 +4,22 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HackISU_Tattoo.iml" filepath="$PROJECT_DIR$/HackISU_Tattoo.iml" />
       <module fileurl="file://C:\Users\mcrgw_y1ejz4l\Documents\hackisumedicaltattoo\HackISU_Tattoo\HackISU_Tattoo.iml" filepath="C:\Users\mcrgw_y1ejz4l\Documents\hackisumedicaltattoo\HackISU_Tattoo\HackISU_Tattoo.iml" />
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/HackISU_Tattoo.iml" filepath="$PROJECT_DIR$/HackISU_Tattoo.iml" />
+=======
+      <module fileurl="file://C:\Users\Brycycle\Documents\GitHub\hackisumedicaltattoo\HackISU_Tattoo\HackISU_Tattoo.iml" filepath="C:\Users\Brycycle\Documents\GitHub\hackisumedicaltattoo\HackISU_Tattoo\HackISU_Tattoo.iml" />
+>>>>>>> a0214f377f51c5e2591b8a951a431d4db34099d0
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://D:\Software Development\hackisumedicaltattoo\HackISU_Tattoo\app\app.iml" filepath="D:\Software Development\hackisumedicaltattoo\HackISU_Tattoo\app\app.iml" />
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\mcrgw_y1ejz4l\Documents\hackisumedicaltattoo\HackISU_Tattoo\app\app.iml" filepath="C:\Users\mcrgw_y1ejz4l\Documents\hackisumedicaltattoo\HackISU_Tattoo\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/openCVLibrary341/openCVLibrary341.iml" filepath="$PROJECT_DIR$/openCVLibrary341/openCVLibrary341.iml" />
+=======
+      <module fileurl="file://C:\Users\Brycycle\Documents\GitHub\hackisumedicaltattoo\HackISU_Tattoo\app\app.iml" filepath="C:\Users\Brycycle\Documents\GitHub\hackisumedicaltattoo\HackISU_Tattoo\app\app.iml" />
+>>>>>>> a0214f377f51c5e2591b8a951a431d4db34099d0
       <module fileurl="file://$PROJECT_DIR$/openCVLibrary341/openCVLibrary341.iml" filepath="$PROJECT_DIR$/openCVLibrary341/openCVLibrary341.iml" />
+      <module fileurl="file://C:\Users\Brycycle\Documents\GitHub\hackisumedicaltattoo\HackISU_Tattoo\openCVLibrary341\openCVLibrary341.iml" filepath="C:\Users\Brycycle\Documents\GitHub\hackisumedicaltattoo\HackISU_Tattoo\openCVLibrary341\openCVLibrary341.iml" />
       <module fileurl="file://C:\Users\mcrgw_y1ejz4l\Documents\hackisumedicaltattoo\HackISU_Tattoo\openCVLibrary341\openCVLibrary341.iml" filepath="C:\Users\mcrgw_y1ejz4l\Documents\hackisumedicaltattoo\HackISU_Tattoo\openCVLibrary341\openCVLibrary341.iml" />
     </modules>
   </component>

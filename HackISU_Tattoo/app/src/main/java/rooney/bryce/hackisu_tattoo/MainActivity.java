@@ -20,6 +20,7 @@ import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
 import org.opencv.imgproc.Imgproc;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -28,6 +29,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.view.SurfaceView;
+import android.widget.Button;
 
 public class MainActivity extends Activity implements OnTouchListener, CvCameraViewListener2 {
     private static final String  TAG              = "OCVSample::Activity";
@@ -41,6 +43,7 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
     private Scalar               CONTOUR_COLOR;
     private String               mShapeName;
     private ColorBlobDetector    mDetector;
+    private ArrayList<Coordinate> coordinates;
 
     private CameraBridgeViewBase mOpenCvCameraView;
 
@@ -79,6 +82,17 @@ public class MainActivity extends Activity implements OnTouchListener, CvCameraV
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.color_blob_detection_activity_surface_view);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
+
+//        bGetInfo = (Button) findViewById(R.id.bGetInfo);
+//        bGetInfo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent startInfoDisplayActivity = new Intent(MainActivity.this, InfoDisplayActivity.class);
+//                startInfoDisplayActivity.putExtra("diseaseList", extrapolateDiseaseData(coordinates));
+//                startActivity(startInfoDisplayActivity);
+//            }
+
     }
 
     @Override
